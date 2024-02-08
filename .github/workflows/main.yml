@@ -33,11 +33,9 @@ jobs:
 
       - name: Database Actions
         run: |
-          mysql -u root
+          mysql -u roo
           mysql -e "CREATE DATABASE IF NOT EXISTS csye6225;"
-          mysql -e "CREATE USER 'root'@'localhost' IDENTIFIED BY '12345678';"
-          mysql -e "CREATE USER 'runner'@'localhost' IDENTIFIED BY '12345678';"
-          mysql -e "GRANT ALL PRIVILEGES ON csye6225.* TO 'csye6225'@'localhost';"
+         
 
       - name: Build Application
         run: |
