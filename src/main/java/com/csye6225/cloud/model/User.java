@@ -14,15 +14,15 @@ import java.util.UUID;
 @Entity
 @Data
 public class User {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "UUID")
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JdbcTypeCode(SqlTypes.CHAR)
     private UUID id;
 
-    @Id
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     @JsonProperty("username")
     @Email(message = "Username/Email is not in format, please check")
     private String username;
@@ -53,4 +53,5 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="account_updated")
     private LocalDateTime accountUpdated;
+
 }
