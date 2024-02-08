@@ -1,0 +1,42 @@
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+
+      - name: Install MySQL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-server
+
+      - name: Start MySQL Service
+        run: |
+          sudo service mysql start
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      - name: Database Actions
+        run: |
+          mysql -e "CREATE DATABASE IF NOT EXISTS csye6225;"
+          mysql -e "CREATE USER 'csye6225'@'localhost' IDENTIFIED BY '12345678';"
+          mysql -e "GRANT ALL PRIVILEGES ON my_database.* TO 'csye6225'@'localhost';"
+
+      - name: Build Application
+        run: |
+          mvn clean install
