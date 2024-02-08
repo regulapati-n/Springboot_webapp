@@ -33,8 +33,6 @@ jobs:
 
       - name: Database Actions
         run: |
-          mysql -u roo
-          mysql -e "CREATE DATABASE IF NOT EXISTS csye6225;"
          
 
       - name: Build Application
