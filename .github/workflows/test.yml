@@ -13,7 +13,7 @@ jobs:
         with:
           mysql-database: 'csye6225'
           mysql-user: 'root'
-          mysql-password: ${{ secrets.MYSQL_PASSWORD }}
+          mysql_root_password: '${{ secrets.MYSQL_ROOT_PASSWORD }}'
 
       - name: Install Maven
         run: |
