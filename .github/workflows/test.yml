@@ -1,26 +1,15 @@
+name: IntegrationTest
+
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
+    name: Integration Test
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup MySQL
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql database: ‘csye6225’
-          mysql user: ‘nikhil’
-          mysql password: '${{ secrets.MYSQL_PASSWORD }}'
-
-
-      - name: Install Maven
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y maven
-
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -30,18 +19,15 @@ jobs:
           java-version: '21'
           distribution: 'adopt'
 
-      - name: Start MySQL Service
-        run: |
-          sudo service mysql start
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql database: 'db'
+          mysql user: 'test'
+          mysql password: '${{ secrets.MYSQL_PASSWORD }}'
 
-      - name: Database Setup
+      - name: Test
         run: |
-          # You can perform additional database setup tasks here if needed
-
-      - name: Run Maven Clean Install
-        run: |
-          mvn clean install
-
-      - name: Running Integration Tests
-        run: |
-           mvn test
+          pwd
+          ls -al
+          mvn clean install -DskipTests=false
