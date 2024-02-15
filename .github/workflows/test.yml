@@ -37,10 +37,10 @@ jobs:
         run: |
           # You can perform additional database setup tasks here if needed
 
-      - name: Run Integration Tests
+      - name: Run Maven Clean Install
         run: |
           mvn clean install
 
-      - name: Cleanup
+      - name: Running Integration Tests
         run: |
            mvn test
