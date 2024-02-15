@@ -28,8 +28,8 @@ public class UserService {
         User userDto = userrepo.findByUsername(user.getUsername());
         if (userDto == null) {
             user.setPassword(encoder().encode(user.getPassword()));
-            user.setFirstName("john");
-            user.setLastName("doe");
+            user.setFirstName(user.getFirstName());
+            user.setLastName(user.getLastName());
             userrepo.save(user);
             return "Created User";
         }

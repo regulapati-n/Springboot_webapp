@@ -23,8 +23,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authz) -> authz.requestMatchers(HttpMethod.POST, "/v1/user").permitAll()
                 .requestMatchers(("/healthz")).permitAll()
                 .requestMatchers("/v1/user").permitAll()
-                .anyRequest()
-                .authenticated());
+                .anyRequest().permitAll());
         http.csrf((csrf) -> csrf.disable());
         http.httpBasic();
         return http.build();
