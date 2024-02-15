@@ -11,9 +11,15 @@ jobs:
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql-database: 'csye6225'
-          mysql-user: 'root'
-          mysql_root_password: '${{ secrets.MYSQL_ROOT_PASSWORD }}'
+          'mysql database': csye6225
+          'mysql user': root
+          'mysql password': 12345678
+          'host port': 3306
+          'container port': 3306
+          'character set server': utf8mb4
+          'collation server': utf8mb4_general_ci
+          'mysql version': latest
+          'mysql root password': '${{ secrets.MYSQL_ROOT_PASSWORD }}'
 
       - name: Install Maven
         run: |
