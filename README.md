@@ -24,3 +24,6 @@ Basic spring-boot CRUD API with maven setup. Added Basic auth settings to the pr
 3. http://localhost:8080/v1/user/self (GET -- get current logged user information)
 4. http://localhost:8080/v1/user/self (PUT -- update user information)
 
+
+
+Added Integration Tests
