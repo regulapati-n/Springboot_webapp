@@ -1,0 +1,46 @@
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql-database: 'csye6225'
+          mysql-user: 'root'
+          mysql-password: ${{ secrets.MYSQL_PASSWORD }}
+
+      - name: Install Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+
+      - name: Start MySQL Service
+        run: |
+          sudo service mysql start
+
+      - name: Database Setup
+        run: |
+          # You can perform additional database setup tasks here if needed
+
+      - name: Run Integration Tests
+        run: |
+          mvn clean install
+
+      - name: Cleanup
+        run: |
+           mvn test
