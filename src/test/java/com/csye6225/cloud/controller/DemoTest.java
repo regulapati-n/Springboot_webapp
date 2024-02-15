@@ -58,11 +58,40 @@ public class DemoTest {
                 .body("username", equalTo(username))
                 .body("firstName", equalTo(first_Name))
                 .body("lastName", equalTo(last_Name));
-    }
 
+
+
+
+
+    }
+    public void updateuser() throws Exception {
+        String username = "test_user";
+        String password = "test_password";
+        String first_Name = "mike";
+        String last_Name = "palmer";
+
+
+        String authorizationHeader = createBasicAuthHeader(username, password);
+        String updateUserJson = createJsonString( first_Name, last_Name);
+        RestAssured.given()
+                .port(port)
+                .contentType("application/json")
+                .body(updateUserJson)
+                .header("Authorization", authorizationHeader)
+                .put("v1/user/self")
+                .then()
+                .statusCode(HttpStatus.OK.value());
+
+    }
     private String createJsonString(String username, String password, String firstName, String lastName) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(
                 Map.of("username", username, "password", password, "first_name", firstName, "last_name", lastName)
+        );
+    }
+
+    private String createJsonString(String firstName, String lastName) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(
+                Map.of("first_name", firstName, "last_name", lastName)
         );
     }
 
