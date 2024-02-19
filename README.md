@@ -10,7 +10,7 @@ Basic spring-boot CRUD API with maven setup. Added Basic auth settings to the pr
 5. mvn spring-boot:run
 6. check the logs for the application url.
 7. Default port is 8080 and runs in localhost.
-8. press command+c to stop the server.
+8. press command+c to stop the serverr.
 9. if you wish not to install maven.You can run following commands on respective OS.
 10. ./mvnw spring-boot:run  (unix)
 11. ./mvnw.cmd spring-boot:run  (windows)
