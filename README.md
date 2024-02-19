@@ -1,5 +1,5 @@
 # webservice
-This repo is used for Network Structures and Cloud Computing assignment Spring2024.
+This repo is used for Network Structures and Cloud Computing assignment Spring2024 spring.
 ## project info
 Basic spring-boot CRUD API with maven setup. Added Basic auth settings to the project.
 ## steps to run this project
