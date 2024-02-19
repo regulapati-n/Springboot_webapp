@@ -33,7 +33,7 @@ public class DemoTest {
         // Test data
         String username = "test_user";
         String password = "test_password";
-        String first_Name = "John";
+        String first_Name = ;
         String last_Name = "Doe";
 
         // Create user
