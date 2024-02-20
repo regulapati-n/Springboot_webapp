@@ -16,8 +16,8 @@ jobs:
 
       - name: Initialize Packer template
         id: init
-        run: "packer init ."
+        run: "packer init ./packer/base-centos.pkr.hcl"
 
       - name: Validate Packer template
         id: validate
-        run: "packer validate ."
+        run: "packer validate ./packer/base-centos.pkr.hcl"
