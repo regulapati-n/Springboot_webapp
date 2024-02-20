@@ -1,15 +1,36 @@
-name: packer
+name: IntegrationTest
 
 on:
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  packer:
+  build:
+    name: Integration Test
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql database: 'db'
+          mysql user: 'test'
+          mysql password: 'intTest@123'
+
+      - name: Test
+        run: |
+          pwd
+          ls -al
+          mvn clean install -DskipTests=false
 
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
