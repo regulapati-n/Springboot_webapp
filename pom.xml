@@ -14,7 +14,7 @@
     <name>CloudApp</name>
     <description>CSYE6225</description>
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
