@@ -1,0 +1,23 @@
+name: packer
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  packer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+
+      - name: Initialize Packer template
+        id: init
+        run: "packer init ."
+
+      - name: Validate Packer template
+        id: validate
+        run: "packer validate ."
