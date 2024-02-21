@@ -42,16 +42,13 @@ jobs:
 
       - name: Initialize and Validate Packer Template
         run: |
-          cd ./packer/
           packer init ./packer/base-centos.pkr.hcl
           packer validate ./packer/base-centos.pkr.hcl
 
       - name: Format Packer Template
         run: |
-          cd ./packer/
           packer fmt ./packer/base-centos.pkr.hcl
 
       - name: Build Image with Packer
         run: |
-          cd ./packer/
           packer build ./packer/base-centos.pkr.hcl
