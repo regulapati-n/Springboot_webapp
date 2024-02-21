@@ -29,6 +29,7 @@ jobs:
           mysql-database: 'db'
           mysql-user: 'test'
           mysql-password: 'intTest@123'
+          mysql-root-password: '123'
 
       - name: Test
         run: |
