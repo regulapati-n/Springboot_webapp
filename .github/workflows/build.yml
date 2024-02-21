@@ -1,17 +1,15 @@
-name: Custom Image Build
+name: Packer Build
 
 on:
   pull_request:
-    branches: 
-      - main
-    types: closed
+    types: [closed]
 
 jobs:
   build:
-    name: Build Custom Image
-    if: github.event.pull_request.merged == true
+    name: Packer Build
     runs-on: ubuntu-latest
-    
+
+    if: github.event.pull_request.merged == true
 
     steps:
       - name: Checkout Repository
@@ -20,43 +18,40 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
-          distribution: 'adopt'
+          java-version: 17
+          distribution: 'temurin'
+          cache: maven
 
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql-database: 'db'
-          mysql-user: 'test'
-          mysql-password: 'intTest@123'
-          mysql-root-password: '123'
+          mysql database: 'db'
+          mysql user: 'test'
+          mysql password: 'intTest@123'
+
+      - name: gcloud action runner
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{secrets.GCP_CREDENTIALS}}'
 
       - name: Test
         run: |
           pwd
           ls -al
-          mvn package
+          mvn clean install -DskipTests=false          
 
-      - name: Setup Packer
-        uses: hashicorp/setup-packer@main
+      - name: Initialize and Validate Packer Template
+        run: |
+          cd ./packer/
+          packer init ./packer/base-centos.pkr.hcl
+          packer validate ./packer/base-centos.pkr.hcl
 
-      - name: Initialize Packer template
-        id: init
-        run: "packer init ./packer/base-centos.pkr.hcl"
+      - name: Format Packer Template
+        run: |
+          cd ./packer/
+          packer fmt ./packer/base-centos.pkr.hcl
 
-      - name: Format Packer template
-        id: fmt
-        run: "packer fmt ./packer/base-centos.pkr.hcl"
-
-      - name: Validate Packer template
-        id: validate
-        run: "packer validate ./packer/base-centos.pkr.hcl"
-        
-      - name: gcloud action runner
-        uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-
-      - name: Build Packer template
-        id: build
-        run: "packer build ./packer/base-centos.pkr.hcl"
+      - name: Build Image with Packer
+        run: |
+          cd ./packer/
+          packer build ./packer/base-centos.pkr.hcl
