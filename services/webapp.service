@@ -7,8 +7,7 @@ After=network.target
 Type=simple
 User=csye6225
 Group=csye6225
-ExecStart=/usr/bin/java -jar /home/tmp/CSYE6225-0.0.1-SNAPSHOT.jar --spring.config.location=/home/tmp/application.properties
-SuccessExitStatus=143
+ExecStart=/usr/bin/java -jar /tmp/CSYE6225-0.0.1-SNAPSHOT.jar
 Restart=always
 RestartSec=5
 StandardOutput=syslog

@@ -18,4 +18,3 @@ echo "************** SQL Setup Complete!************"
 
 # sudo yum install maven -y
 sudo systemctl enable mysqld.service
-sudo systemctl start mysqld.service
