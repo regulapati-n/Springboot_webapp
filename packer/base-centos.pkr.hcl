@@ -7,20 +7,45 @@ packer {
   }
 }
 
+variable "image_name" {
+  default     = "webapp-os"
+  description = "Name of the custom image"
+}
+
+variable "machine_type" {
+  default     = "e2-medium"
+  description = "Type of machine to create VM"
+}
+
 variable "zone" {
-  default = "us-east4-b"
+  default     = "us-east4-b"
+  description = "zone in which you want to create image in"
+}
+
+variable "project_name" {
+  default     = "dev-csye6225-414920"
+  description = "name of the project in gcloud"
+}
+
+variable "vpc_name" {
+  default     = "default"
+  description = "Name of the VPC"
+}
+
+variable "source_image" {
+  default = "centos-stream-8-v20240110"
 }
 
 
 source "googlecompute" "ex" {
-  image_name   = "finalcentos"
-  machine_type = "e2-medium"
-  source_image = "centos-stream-8-v20240110"
+  image_name   = var.image_name
+  machine_type = var.machine_type
+  source_image = var.source_image
   ssh_username = "packer"
   use_os_login = "false"
   zone         = var.zone
-  network      = "default"
-  project_id   = "dev-csye6225-414920"
+  network      = var.vpc_name
+  project_id   = var.project_name
 }
 
 build {
@@ -45,7 +70,7 @@ build {
     source      = "./services/webapp.service"
     destination = "/tmp/"
   }
-  
+
   provisioner "shell" {
     inline = [
       "sudo mv /tmp/webapp.service /etc/systemd/system/",
