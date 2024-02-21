@@ -1,0 +1,61 @@
+name: Custom Image Build
+
+on:
+  pull_request:
+    branches: 
+      - main
+    types: closed
+
+jobs:
+  build:
+    name: Build Custom Image
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql-database: 'db'
+          mysql-user: 'test'
+          mysql-password: 'intTest@123'
+
+      - name: Test
+        run: |
+          pwd
+          ls -al
+          mvn clean install -DskipTests=false
+
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+
+      - name: Initialize Packer template
+        id: init
+        run: "packer init ./packer/base-centos.pkr.hcl"
+
+      - name: Format Packer template
+        id: fmt
+        run: "packer fmt ./packer/base-centos.pkr.hcl"
+
+      - name: Validate Packer template
+        id: validate
+        run: "packer validate ./packer/base-centos.pkr.hcl"
+        
+      - name: gcloud action runner
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Build Packer template
+        id: build
+        run: "packer build ./packer/base-centos.pkr.hcl"
