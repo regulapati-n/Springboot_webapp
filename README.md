@@ -8,7 +8,7 @@ Basic spring-boot CRUD API with maven setup. Added Basic auth settings to the pr
 3. change to project directory in terminal and run the below commands.
 4. mvn clean install
 5. mvn spring-boot:run
-6. check the logs for the application url.
+6. check the logs for the application urll.
 7. Default port is 8080 and runs in localhost.
 8. press command+c to stop the serverr.
 9. if you wish not to install maven.You can run following commands on respective OS.
