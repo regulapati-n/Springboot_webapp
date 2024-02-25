@@ -23,7 +23,7 @@ variable "zone" {
 }
 
 variable "project_name" {
-  default     = "dev-csye6225-414920"
+  default     = "nikhil-csye-6225"
   description = "name of the project in gcloud"
 }
 
