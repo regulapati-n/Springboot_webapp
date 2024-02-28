@@ -7,8 +7,9 @@ packer {
   }
 }
 
+
 variable "image_name" {
-  default     = "webapp-os"
+  default     = "assignment-5"
   description = "Name of the custom image"
 }
 
@@ -23,7 +24,7 @@ variable "zone" {
 }
 
 variable "project_name" {
-  default     = "nikhil-csye-6225"
+  default     = "dev-demo-415618"
   description = "name of the project in gcloud"
 }
 
@@ -57,11 +58,6 @@ build {
     destination = "/tmp/"
   }
 
-  provisioner "file" {
-    source      = "./src/main/resources/application.properties"
-    destination = "/tmp/"
-  }
-
   provisioner "shell" {
     script = "./shell/webapp.sh"
   }
@@ -73,13 +69,17 @@ build {
 
   provisioner "shell" {
     inline = [
+      "sudo groupadd -f csye6225",
+      "sudo useradd -s /sbin/nologin -g csye6225 -d /opt/csye6225 -m csye6225",
       "sudo mv /tmp/webapp.service /etc/systemd/system/",
-      "sudo systemctl start mysqld.service",
-      "sudo groupadd csye6225",
-      "sudo useradd -g csye6225 -s /usr/sbin/nologin csye6225",
-      "sudo usermod -aG csye6225 csye6225",
-      "sudo chown -R csye6225:csye6225 /tmp/CSYE6225-0.0.1-SNAPSHOT.jar",
-      "sudo chmod 750 /tmp/CSYE6225-0.0.1-SNAPSHOT.jar",
+      "sudo mv /tmp/CSYE6225-0.0.1-SNAPSHOT.jar /opt/csye6225/CSYE6225-0.0.1-SNAPSHOT.jar",
+      "sudo chown -R csye6225:csye6225 /opt/csye6225/CSYE6225-0.0.1-SNAPSHOT.jar",
+      "sudo chmod 750 /opt/csye6225/CSYE6225-0.0.1-SNAPSHOT.jar",
+      "sudo dnf install java-17-openjdk -y",
+      "sudo touch /opt/csye6225/application.properties",
+      "sudo chown csye6225:csye6225 /opt/csye6225/application.properties",
+      "sudo chmod 750 /opt/csye6225/application.properties",
+      "sudo yum install mysql-server -y",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable webapp.service"
     ]
