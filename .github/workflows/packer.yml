@@ -1,4 +1,4 @@
-name: IntegrationTest
+name: Packer Validation
 
 on:
   pull_request:
@@ -38,6 +38,10 @@ jobs:
       - name: Initialize Packer template
         id: init
         run: "packer init ./packer/base-centos.pkr.hcl"
+
+      - name: Initialize Packer template
+        id: fmt
+        run: "packer fmt -check ./packer/base-centos.pkr.hcl"
 
       - name: Validate Packer template
         id: validate

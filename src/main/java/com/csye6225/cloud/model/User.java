@@ -28,12 +28,12 @@ public class User {
     private String username;
 
     @JsonProperty("first_name")
-    @Column(name="first_name")
+    @Column(name="first_name", nullable = false)
     @NotEmpty(message="First Name cannot be null/empty")
     private String firstName;
 
     @JsonProperty("last_name")
-    @Column(name="last_name")
+    @Column(name="last_name", nullable = false)
     @NotEmpty(message="Last Name cannot be null/empty")
     private String lastName;
 
