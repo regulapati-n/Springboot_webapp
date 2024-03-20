@@ -9,13 +9,12 @@ packer {
 
 
 variable "image_name" {
-
-  default     = "assignment-5final"
+  default     = "assignment-6final5"
   description = "Name of the custom image"
 }
 
 variable "machine_type" {
-  default     = "e2-medium"
+  default     = "e2-standard-8"
   description = "Type of machine to create VM"
 }
 
@@ -64,6 +63,11 @@ build {
   }
 
   provisioner "file" {
+    source      = "./config/config.yaml"
+    destination = "/tmp/"
+  }
+
+  provisioner "file" {
     source      = "./services/webapp.service"
     destination = "/tmp/"
   }
@@ -82,7 +86,11 @@ build {
       "sudo chmod 750 /opt/csye6225/application.properties",
       "sudo yum install mysql-server -y",
       "sudo systemctl daemon-reload",
-      "sudo systemctl enable webapp.service"
+      "sudo systemctl enable webapp.service",
+      "curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh",
+      "sudo bash add-google-cloud-ops-agent-repo.sh --also-install",
+      "sudo mv /tmp/config.yaml /etc/google-cloud-ops-agent/config.yaml",
+      "sudo systemctl restart google-cloud-ops-agent",
     ]
   }
 }
