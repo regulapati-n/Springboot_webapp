@@ -1,5 +1,6 @@
 package com.csye6225.cloud.service;
 
+import com.csye6225.cloud.controller.UserController;
 import com.csye6225.cloud.exception.DataNotFoundException;
 import com.csye6225.cloud.exception.UserExistException;
 import com.csye6225.cloud.model.User;
@@ -10,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -41,7 +39,6 @@ public class UserService {
         if (user != null) {
             return UserDto.getUserDto(user);
         }
-
         throw new DataNotFoundException("User Not Found");
     }
 
