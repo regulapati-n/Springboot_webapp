@@ -9,7 +9,7 @@ packer {
 
 
 variable "image_name" {
-  default     = "assignment-6final5"
+  default     = "assignment-7third"
   description = "Name of the custom image"
 }
 
