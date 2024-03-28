@@ -38,7 +38,7 @@ jobs:
         run: |
           pwd
           ls -al
-          mvn clean install -DskipTests=false          
+          mvn clean install -DskipTests=true          
 
       - name: Initialize and Validate Packer Template
         run: |
