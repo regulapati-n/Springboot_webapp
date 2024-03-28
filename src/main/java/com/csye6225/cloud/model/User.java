@@ -54,4 +54,10 @@ public class User {
     @Column(name="account_updated")
     private LocalDateTime accountUpdated;
 
+    @JsonProperty(value = "verification_status")
+    @Column(nullable = false)
+    private boolean verified;
+
+    @Column(nullable = false)
+    private long mail_sent;
 }
