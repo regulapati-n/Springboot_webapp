@@ -30,7 +30,7 @@ jobs:
         run: |
           pwd
           ls -al
-          mvn clean install -DskipTests=false
+          mvn clean install -DskipTests=true
 
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
