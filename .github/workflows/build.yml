@@ -86,4 +86,8 @@ jobs:
 
       - name: Verifying Rolling-Update
         run: |
-          gcloud compute instance-groups managed describe webapp-instance-group3 --region=us-east4 --format="value(status.versionTarget.isReached)"
+          status="RUNNING"
+          while [ "$status" != "True" ]; do
+          status=$(gcloud compute instance-groups managed describe webapp-igm --region=us-east1 --project=test-csye --format="value(status.versionTarget.isReached)")
+          sleep 10
+          done
