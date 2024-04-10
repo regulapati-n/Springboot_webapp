@@ -59,7 +59,7 @@ jobs:
           latest_image_id=$(gcloud compute images list --sort-by=~creationTimestamp --format='value(NAME)' --limit=1)
           echo "$latest_image_id"
           gcloud compute instance-templates create ${{ secrets.TEMPLATE_NAME }} \
-          --project=dev-demo-415618 \
+          --project=${{ secrets.PROJECT }} \
           --machine-type=e2-standard-2 \
           --network-interface=network-tier=PREMIUM,subnet=webapp-subnet \
           --metadata=startup-script="${{ secrets.STARTUP_SCRIPT }}" \
@@ -88,6 +88,6 @@ jobs:
         run: |
           status="RUNNING"
           while [ "$status" != "True" ]; do
-          status=$(gcloud compute instance-groups managed describe webapp-igm --region=us-east1 --project=test-csye --format="value(status.versionTarget.isReached)")
+          status=$(gcloud compute instance-groups managed describe webapp-instance-group3 --region=us-east4 --format="value(status.versionTarget.isReached)")
           sleep 10
           done
