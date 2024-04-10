@@ -17,6 +17,8 @@ public class UserUpdateRequestModel {
     @NotEmpty(message="Password cannot be null/empty")
     private String password;
 
+
+
     public String getFirstName() {
         return firstName;
     }
