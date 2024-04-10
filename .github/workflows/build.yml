@@ -78,13 +78,6 @@ jobs:
           --shielded-vtpm \
           --shielded-integrity-monitoring \
           --reservation-affinity=any
-
-
-
-      - name: Set new Template for the group
-        run: |
-          gcloud compute instance-groups managed set-instance-template \
-          webapp-instance-group3 --template=${{ secrets.TEMPLATE_NAME }}
           
 
       - name: Create new Template
@@ -92,4 +85,9 @@ jobs:
           gcloud compute instance-groups managed rolling-action start-update \
           webapp-instance-group3 \
           --version=template=${{ secrets.TEMPLATE_NAME }} \
-          --max-surge=5
+          --max-surge=5 \
+          --region=us-east4
+
+      - name: Verifying Rolling-Update
+        run: |
+          gcloud compute instance-groups managed describe webapp-instance-group3 --region=us-east4 --format="value(status.versionTarget.isReached)"
