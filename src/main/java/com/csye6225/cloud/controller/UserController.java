@@ -9,6 +9,7 @@ import com.csye6225.cloud.exception.UserExistException;
 import com.csye6225.cloud.model.User;
 import com.csye6225.cloud.model.UserDto;
 import com.csye6225.cloud.model.UserUpdateRequestModel;
+import com.csye6225.cloud.repository.UserRepository;
 import com.csye6225.cloud.service.AuthService;
 import com.csye6225.cloud.service.UserService;
 import com.google.api.core.ApiFuture;
@@ -37,6 +38,9 @@ public class UserController {
     AuthService authService;
 
     @Autowired
+    UserRepository userrepo;
+
+    @Autowired
     Publisher publisher;
 
     @GetMapping("v1/verify/{id}")
@@ -59,8 +63,12 @@ public class UserController {
     public ResponseEntity<?> getUserDetails(@RequestHeader("Authorization") String authorizationHeader) {
         try {
             String username = authService.extractUsernameFromAuthorization(authorizationHeader);
-            UserDto user = userService.getUserDetails(username);
-            if (user != null) {
+            UserDto user = userService.getUserDetails(username); // Use your repository method
+            if (!user.isVerified()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User is not verified");
+            }
+            UserDto userr = userService.getUserDetails(username);
+            if (userr != null) {
                 logger.info("User details retrieved successfully for user: {}", username);
                 return new ResponseEntity<>(user, HttpStatus.OK);
             } else {
@@ -82,6 +90,11 @@ public class UserController {
         try {
             String username = authService.extractUsernameFromAuthorization(authorizationHeader);
             authService.isAuthorised(username, authorizationHeader.split(" ")[1]);
+            UserDto userr = userService.getUserDetails(username);
+            if (!userr.isVerified()){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User is not verified");
+            }
+
             if (error.hasErrors()) {
                 String response = error.getAllErrors().stream().map(ObjectError::getDefaultMessage)
                         .collect(Collectors.joining(","));

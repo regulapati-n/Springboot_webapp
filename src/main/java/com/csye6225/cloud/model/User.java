@@ -58,6 +58,4 @@ public class User {
     @Column(nullable = false)
     private boolean verified;
 
-    @Column(nullable = false)
-    private long mail_sent;
 }
