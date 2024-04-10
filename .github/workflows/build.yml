@@ -73,7 +73,7 @@ jobs:
           --scopes=https://www.googleapis.com/auth/cloud-platform \
           --region=us-east4 \
           --tags=webapp-instance \
-          --create-disk=auto-delete=yes,boot=yes,device-name=persistent-disk-0,image=projects/dev-demo-415618/global/images/$latest_image_id,kms-key=projects/dev-demo-415618/locations/us-east4/keyRings/terraform-managed-key5/cryptoKeys/vm-encryption-key,mode=rw,size=20,type=pd-standard \
+          --create-disk=auto-delete=yes,boot=yes,device-name=persistent-disk-0,image=$latest_image_id,kms-key=projects/dev-demo-415618/locations/us-east4/keyRings/terraform-managed-key5/cryptoKeys/vm-encryption-key,mode=rw,size=20,type=pd-standard \
           --no-shielded-secure-boot \
           --shielded-vtpm \
           --shielded-integrity-monitoring \
