@@ -2,7 +2,7 @@ name: Packer Build
 
 on:
   pull_request:
-    types: [closed]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
         run: |
           pwd
           ls -al
-          mvn clean install -DskipTests=true          
+          mvn clean install -DskipTests=true        
 
       - name: Initialize and Validate Packer Template
         run: |
@@ -52,3 +52,41 @@ jobs:
       - name: Build Image with Packer
         run: |
           packer build ./packer/base-centos.pkr.hcl
+
+      - name: fetching image name
+        run: |
+          gcloud config set project ${{ secrets.PROJECT }}
+          latest_image_id=$(gcloud compute images list  --sort-by=creationTimestamp --format='value(id)' --limit=1)
+          echo "$latest_image_id"
+          
+
+      - name: Create new Template
+        run: |
+          gcloud beta compute instance-templates create ${{ secrets.TEMPLATE_NAME }}
+          --project= ${{ secrets.PROJECT }}
+          --machine-type= ${{ secrets.MACHINE }}
+          --network-interface=network-tier=STANDARD,subnet= ${{ secrets.SUBNET }}
+          --instance-template-region= us-east4
+          --metadata=startup-script= ${{ secrets.SCRIPT }}
+          --maintenance-policy=MIGRATE
+          --region=us-east4
+          --provisioning-model=STANDARD
+          --service-account= ${{ secrets.SERVICE_ACCOUNT }}
+          --scopes= ${{ secrets.SCOPE }}
+          --tags=webapp-instance
+          --create-disk=auto-delete=yes,boot=yes,device-name=persistent-disk-0,image=projects/dev-demo-415618/global/images/$latest_image_id,kms-key=projects/dev-demo-415618/locations/us-east4/keyRings/terraform-managed-key5/cryptoKeys/vm-encryption-key,mode=rw,size=20,type=pd-standard
+          --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring
+          --reservation-affinity=any
+
+      - name: Set new Template for the group
+        run: |
+          gcloud compute instance-groups managed set-instance-template \
+          webapp-instance-group3 --template=${{ secrets.TEMPLATE_NAME }}
+          
+
+      - name: Create new Template
+        run: |
+          gcloud compute instance-groups managed rolling-action start-update \
+          webapp-instance-group3 \
+          --version=template=${{ secrets.TEMPLATE_NAME }} \
+          --max-surge=5
