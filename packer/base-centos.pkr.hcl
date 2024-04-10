@@ -9,7 +9,7 @@ packer {
 
 
 variable "image_name" {
-  default     = "assignment-7third"
+  default     = "csye6225-{{timestamp}}"
   description = "Name of the custom image"
 }
 
