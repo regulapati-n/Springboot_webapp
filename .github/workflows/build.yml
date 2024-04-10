@@ -56,7 +56,7 @@ jobs:
       - name: Create new Template
         run: |
           gcloud config set project ${{ secrets.PROJECT }}
-          latest_image_id=$(gcloud compute images list  --sort-by=creationTimestamp --format='value(id)' --limit=1)
+          latest_image_id=$(gcloud compute images list --sort-by=~creationTimestamp --format='value(NAME)' --limit=1)
           echo "$latest_image_id"
           gcloud compute instance-templates create ${{ secrets.TEMPLATE_NAME }} \
           --project=dev-demo-415618 \
