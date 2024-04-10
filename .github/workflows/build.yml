@@ -52,16 +52,12 @@ jobs:
       - name: Build Image with Packer
         run: |
           packer build ./packer/base-centos.pkr.hcl
-
-      - name: fetching image name
+          
+      - name: Create new Template
         run: |
           gcloud config set project ${{ secrets.PROJECT }}
           latest_image_id=$(gcloud compute images list  --sort-by=creationTimestamp --format='value(id)' --limit=1)
           echo "$latest_image_id"
-          
-
-      - name: Create new Template
-        run: |
           gcloud compute instance-templates create ${{ secrets.TEMPLATE_NAME }} \
           --project=dev-demo-415618 \
           --machine-type=e2-standard-2 \
