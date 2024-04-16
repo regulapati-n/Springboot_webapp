@@ -43,7 +43,7 @@ public class UserController {
     @Autowired
     Publisher publisher;
 
-    @GetMapping("v1/verify/{id}")
+    @GetMapping("v6/verify/{id}")
     public ResponseEntity<?> verifyUser(@PathVariable("id") String id) throws Exception {
         try {
             if (userService.verifyUser(id)) {
