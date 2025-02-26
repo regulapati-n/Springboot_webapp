@@ -1,6 +1,6 @@
 # webservice
 ## project info
-Basic spring-boot CRUD API with maven setup. Added Basic auth settings to the project.
+A spring-boot CRUD API with maven setup. Added Basic auth settings to the project.
 ## steps to run this project
 1. git clone git@github.com:regulapati-n/webapp.git
 2. Install maven in your system and java 17 openjdk and Mysql
